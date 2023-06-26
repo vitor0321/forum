@@ -3,6 +3,7 @@ package br.com.alura.forum.service
 import br.com.alura.forum.dto.input.AtualizacaoTopicoForm
 import br.com.alura.forum.dto.input.TopicoForm
 import br.com.alura.forum.dto.output.TopicoView
+import br.com.alura.forum.exception.NotFoundException
 import br.com.alura.forum.mapper.TopicoFormMapper
 import br.com.alura.forum.mapper.TopicoViewMapper
 import br.com.alura.forum.model.Topico
@@ -48,5 +49,7 @@ class TopicoService(
         topicosService = topicosService.filterNot { it == topico }
     }
 
-    private fun getTopicoById(id: Long) = topicosService.first { topic -> topic.id == id }
+    private fun getTopicoById(id: Long) =
+        topicosService.firstOrNull { topic -> topic.id == id }
+            ?: throw NotFoundException("Topico não encontrado, com esse ID: $id")
 }
