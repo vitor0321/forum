@@ -31,3 +31,13 @@ build/
 
 ### VS Code ###
 .vscode/
+*.class
+*.jar
+*.war
+*.ear
+.idea/
+.gradle/
+/.gradle
+/log/
+.DS_Store
+*.db

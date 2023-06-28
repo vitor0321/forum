@@ -1,24 +1,18 @@
 package br.com.alura.forum.service
 
 import br.com.alura.forum.model.Curso
+import br.com.alura.forum.repository.CursoRepository
 import org.springframework.stereotype.Service
+import org.springframework.web.bind.annotation.RequestMapping
+import java.util.Optional
 
 @Service
-class CursoService(var cursos: List<Curso>) {
+@RequestMapping("/curso")
+class CursoService(
+    private val repository: CursoRepository,
+) {
 
-    init {
-        val curso = Curso(
-            id = 1,
-            nome = "Kotlin",
-            categoria = "Programacao"
-        )
-
-        cursos = listOf(curso)
-    }
-
-    fun buscarPorId(id: Long): Curso {
-        return cursos.stream().filter { curso ->
-            curso.id == id
-        }.findFirst().get()
+    fun buscarPorId(id: Long): Optional<Curso> {
+        return repository.findById(id)
     }
 }
