@@ -7,6 +7,8 @@ import br.com.alura.forum.exception.NotFoundException
 import br.com.alura.forum.mapper.TopicoFormMapper
 import br.com.alura.forum.mapper.TopicoViewMapper
 import br.com.alura.forum.repository.TopicoRepository
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 
 @Service
@@ -16,8 +18,18 @@ class TopicoService(
     private val topicoFormMapper: TopicoFormMapper,
 ) {
 
-    fun listar(): List<TopicoView> =
-        repository.findAll().map { topico -> topicoViewMapper.map(topico) }
+    fun listar(
+        nomeCurso: String?,
+        paginacao: Pageable,
+    ): Page<TopicoView> {
+        return nomeCurso?.let {
+            repository.findByCursoNome(nomeCurso = nomeCurso, paginacao = paginacao).map { topico ->
+                topicoViewMapper.map(topico)
+            }
+        } ?: repository.findAll(paginacao).map { topico ->
+            topicoViewMapper.map(topico)
+        }
+    }
 
     fun buscarPorId(id: Long): TopicoView =
         topicoViewMapper.map(getTopicoById(id))
