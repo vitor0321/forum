@@ -2,12 +2,16 @@ package br.com.alura.forum.controller
 
 import br.com.alura.forum.dto.input.AtualizacaoTopicoForm
 import br.com.alura.forum.dto.input.TopicoForm
+import br.com.alura.forum.dto.output.TopicoPorCategoriaView
 import br.com.alura.forum.dto.output.TopicoView
 import br.com.alura.forum.service.TopicoService
 import jakarta.transaction.Transactional
 import jakarta.validation.Valid
+import org.springframework.cache.annotation.CacheEvict
+import org.springframework.cache.annotation.Cacheable
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
+import org.springframework.data.domain.Sort
 import org.springframework.data.web.PageableDefault
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -30,14 +34,16 @@ class TopicoController(
 ) {
 
     @GetMapping
+    @Cacheable("topicos")
     fun listar(
         @RequestParam(required = false) nomeCurso: String?,
-        @PageableDefault(size = 10) paginacao: Pageable,
+        @PageableDefault(size = 10, sort = ["dataCriacao"], direction = Sort.Direction.DESC) paginacao: Pageable,
     ): Page<TopicoView> =
         topicoService.listar(nomeCurso = nomeCurso, paginacao = paginacao)
 
     @PostMapping
     @Transactional
+    @CacheEvict(value = ["topicos"], allEntries = true)
     fun cadastrar(
         @RequestBody @Valid topicoForm: TopicoForm,
         uriBuilder: UriComponentsBuilder,
@@ -48,11 +54,13 @@ class TopicoController(
     }
 
     @GetMapping("/{id}")
+    @Cacheable("topicos")
     fun buscarPorId(@PathVariable id: Long): TopicoView =
         topicoService.buscarPorId(id = id)
 
     @PutMapping
     @Transactional
+    @CacheEvict(value = ["topicos"], allEntries = true)
     fun atualizar(@RequestBody @Valid topicoForm: AtualizacaoTopicoForm): ResponseEntity<TopicoView> =
         ResponseEntity.ok(topicoService.atualizar(topicoForm = topicoForm))
 
@@ -60,6 +68,11 @@ class TopicoController(
     @DeleteMapping("/{id}")
     @Transactional
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @CacheEvict(value = ["topicos"], allEntries = true)
     fun deletar(@PathVariable id: Long) =
         topicoService.deletar(id = id)
+
+    @GetMapping("/relatorio")
+    fun relatorio(): List<TopicoPorCategoriaView> =
+        topicoService.relatorio()
 }

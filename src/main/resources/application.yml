@@ -10,3 +10,12 @@ spring:
       hibernate:
         show_sql: true
         format_sql: true
+  cache:
+    caffeine:
+      spec: maximumSize=100, expireAfterWrite=10m
+    type: caffeine
+
+#    http://localhost:8080/h2-console
+  h2:
+    console:
+      enabled: true
