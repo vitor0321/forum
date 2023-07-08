@@ -5,8 +5,6 @@ import br.com.alura.forum.dto.input.TopicoForm
 import br.com.alura.forum.dto.output.TopicoPorCategoriaView
 import br.com.alura.forum.dto.output.TopicoView
 import br.com.alura.forum.service.TopicoService
-import jakarta.transaction.Transactional
-import jakarta.validation.Valid
 import org.springframework.cache.annotation.CacheEvict
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.data.domain.Page
@@ -26,6 +24,8 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.util.UriComponentsBuilder
+import javax.transaction.Transactional
+import javax.validation.Valid
 
 @RestController
 @RequestMapping("/topicos")

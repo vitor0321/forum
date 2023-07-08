@@ -1,4 +1,4 @@
-package br.com.alura.forum
+        package br.com.alura.forum
 
 import com.github.benmanes.caffeine.cache.Caffeine
 import org.springframework.boot.autoconfigure.SpringBootApplication

@@ -1,14 +1,17 @@
 package br.com.alura.forum.model
 
+import org.springframework.security.core.GrantedAuthority
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
 import javax.persistence.Id
 
 @Entity
-data class Curso(
+data class Role(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long? = null,
-    val nome: String,
-    val categoria: String,
-)
+    private val id: Long,
+    private val nome: String,
+) : GrantedAuthority {
+
+    override fun getAuthority() = nome
+}
