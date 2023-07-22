@@ -18,9 +18,25 @@ Aprendizados:
 
 Rodar a aplicação via Docker usando Container:
 
-* ```docker run -p 3080:8080 forum```
+Empacotar a aplicacao:
+* Navegar até a pasta da Aplicação e rodar: ```mvn package```
 
+Imagem para o container:
+* Criar a imagem baseado no Dockerfile: ```docker build -t forum -f Dockerfile```
 
+    Mostrar as imagens ```docker images```
+
+    Deletar as imagens ```docker rmi NOME_IMAGEM```
+
+Rodar o container:
+* Depois rodar o docker: ```docker run -p 3080:8080 forum```
+
+    Mostrar os container rodando: ```docker ps```
+    
+    Mostrar os todos os containers: ```docker ps -a```
+
+Agora podemos fazer requisições ao ```localhost:3080``` que está apontando para o container no Docke, a aplicação está 
+rodando na porta  ```8080```
 * No Postman pode fazer um Post para:
 Pegar Token: ```POST http://localhost:3080/login``` 
 passando no body:
