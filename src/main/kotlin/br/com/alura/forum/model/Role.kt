@@ -8,9 +8,9 @@ import javax.persistence.Id
 
 @Entity
 data class Role(
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private val id: Long,
-    private val nome: String,
+        @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+        private val id: Long,
+        private val nome: String
 ) : GrantedAuthority {
 
     override fun getAuthority() = nome
